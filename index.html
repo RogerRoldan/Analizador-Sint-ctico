@@ -24,7 +24,12 @@
         </nav>
     </div>
     <h1 style="text-align: center;margin: 24px;font-size: 52px;height: 57px;">Analizador Sintáctico de Polinomios</h1>
-    <div class="container-fluid text-center" style="text-align: center;margin: 0px;padding: 0px;margin-left: 0px;padding-right: 0px;margin-right: 0px;margin-top: 40px;"><input type="text" id="textInputCalculator" style="margin: 0px;height: 59px;width: 488px;font-size: 37px;padding: 10px;padding-top: 0;padding-right: 0;padding-bottom: 6;padding-left: 15px;text-align: justify;"><button class="btn btn-primary" type="button" style="margin: 20px;height: 60px;width: 107px;font-size: 23px;margin-top: -4px;">Analizar</button><button class="btn btn-primary" type="button" style="background: #cf0124;height: 60px;width: 100px;font-size: 23px;margin-top: -23px;">Limpiar</button></div>
+    <div class="container-fluid text-center" 
+    style="text-align: center;margin: 0px;padding: 0px;margin-left: 0px;padding-right: 0px;margin-right: 0px;margin-top: 40px;">
+        <input type="text" id="textInputCalculator" style="margin: 0px;height: 59px;width: 488px;font-size: 37px;padding: 10px;padding-top: 0;padding-right: 0;padding-bottom: 6;padding-left: 15px;text-align: justify;">
+        <button  class="btn btn-primary" type="button" style="margin: 20px;height: 60px;width: 107px;font-size: 23px;margin-top: -4px;">Analizar</button>
+        <button class="btn btn-primary" type="button" style="background: #cf0124;height: 60px;width: 100px;font-size: 23px;margin-top: -23px;">Limpiar</button> 
+    </div>
     <div class="container">
         <div class="row">
             <div class="col">
@@ -51,46 +56,88 @@
         </div>
     </div>
     <div class="container" style="padding: 0px;">
-        <h1 style="text-align: center;margin: 21px;font-size: 35px;background: rgba(142,226,188,0.31);height: 53px;padding: 7px 0px 0px;padding-top: 5px;color: var(--bs-emphasis-color);">Respuesta</h1><label class="form-label" style="height: 36px;font-size: 20px;font-weight: bold;color: var(--bs-emphasis-color);">Polinomio Valido</label><input type="text" style="margin-left: 18px;height: 36px;font-size: 20px;font-weight: bold;"><label class="form-label" style="margin-left: 30px;height: 36px;font-size: 20px;font-weight: bold;color: var(--bs-emphasis-color);">Polinomio Simplificado</label><input type="text" style="margin-left: 18px;height: 36px;">
+        <h1 style="text-align: center;margin: 21px;font-size: 35px;background: rgba(142,226,188,0.31);height: 53px;padding: 7px 0px 0px;padding-top: 5px;color: var(--bs-emphasis-color);">Respuesta</h1>
+        <label class="form-label" style="height: 36px;font-size: 20px;font-weight: bold;color: var(--bs-emphasis-color);">Tipo de polinomio</label>
+        <input type="text" id="resultado" style="margin-left: 18px;height: 36px;font-size: 20px;font-weight: bold;">
+        <label class="form-label" style="margin-left: 30px;height: 36px;font-size: 20px;font-weight: bold;color: var(--bs-emphasis-color);">Polinomio Simplificado</label>
+        <input type="text" style="margin-left: 18px;height: 36px;">
     </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-</body>
+    <script>
+        // Función para agregar texto al input
+        function addTextToInput(text) {
+            var input = document.getElementById('textInputCalculator');
+            input.value += text; 
+        }
 
-<script>
-    // Función para agregar texto al input
-    function addTextToInput(text) {
-        var input = document.getElementById('textInputCalculator');
-        input.value += text; // Añade el texto al valor actual del input
-    }
+        // Función para limpiar el input
+        function clearInput() {
+            var input = document.getElementById('textInputCalculator');
+            input.value = ''; // Limpia el contenido del input
+        }
 
-    // Función para limpiar el input
-    function clearInput() {
-        var input = document.getElementById('textInputCalculator');
-        input.value = ''; // Limpia el contenido del input
-    }
+        // Función para borrar el último carácter del input
+        function deleteLastCharacter() {
+            var input = document.getElementById('textInputCalculator');
+            input.value = input.value.slice(0, -1); // Remueve el último carácter
+        }
 
-    // Función para borrar el último carácter del input
-    function deleteLastCharacter() {
-        var input = document.getElementById('textInputCalculator');
-        input.value = input.value.slice(0, -1); // Remueve el último carácter
-    }
 
-    // Añade eventos de clic a todos los botones de la calculadora
-    window.onload = function() {
-        var buttons = document.querySelectorAll('button');
-        buttons.forEach(function(button) {
-            button.addEventListener('click', function() {
-                if (button.textContent === 'Limpiar') {
-                    clearInput();
-                } else if (button.textContent === 'Borrar') {
-                    deleteLastCharacter();
-                } else {
-                    addTextToInput(button.textContent);
-                }
+        window.onload = function() {
+            var buttons = document.querySelectorAll('button');
+            buttons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    if (button.textContent === 'Limpiar') {
+                        clearInput();
+                    } else if (button.textContent === 'Borrar') {
+                        deleteLastCharacter();
+                    } else if(button.textContent === 'Analizar'){
+                        analizarEcuacion()
+                    }else{
+                        addTextToInput(button.textContent);
+                    }
+                });
             });
-        });
-    }
-</script>
+        }
 
+
+        function validarEcuacion(ecuacion) {
+            const regexPrimerGrado = /^([-+]?\d*x\s*([-+]\s*\d+)?\s*=\s*[-+]?\d+)$/;
+            const regexSegundoGrado = /^([-+]?\d*x\^2\s*([-+]\s*\d*x)?\s*([-+]\s*\d+)?\s*=\s*[-+]?\d+)$/;
+            const regexCubica = /^([-+]?\d*x\^3\s*([-+]\s*\d*x\^2)?\s*([-+]\s*\d*x)?\s*([-+]\s*\d+)?\s*=\s*[-+]?\d+)$/;
+            const regexExponencial = /^(\(?([a-zA-Z]|\d+\.\d+|\d+)\^(\w+)\)?)\s*(?:([-+*/]\s*(?:\d+(?:\.\d+)?|[a-zA-Z])))?\s*=\s*(-?\d+(\.\d+)?)$/;
+            const regexTrigonométrica = /^(?!.*==)(?!^[=,|#&\/|])(?!.*[_!?$%&|°])(sin|cos|tan)\((?:[a-zA-Z0-9π\/()]+(?:\s*[+*\/-]\s*[a-zA-Z0-9π\/()]+)*)\)\s*=\s*(-?\d+(\.\d+)?)$/;
+            
+
+            if (regexPrimerGrado.test(ecuacion)) {
+                return 'Primer Grado';
+            } else if (regexSegundoGrado.test(ecuacion)) {
+                return 'Segundo Grado';
+            } else if (regexCubica.test(ecuacion)) {
+                return 'Cubica';
+            } else if (regexExponencial.test(ecuacion)) {
+                return 'Exponencial';
+            } else if (regexTrigonométrica.test(ecuacion)) {
+                return 'Trigonométrica';
+            } else {
+                return 'Polinomio no válido';
+            }
+        }
+
+        function simplificarEcuacion(ecuacion) {
+            // Simplificar la ecuación aquí
+            return ecuacion;
+        }
+
+        function analizarEcuacion() {
+            var inputEcuacion = document.getElementById('resultado');
+            inputEcuacion.value = "";
+            var input = document.getElementById('textInputCalculator');
+            var tipoEcuacion = validarEcuacion(input.value);
+            inputEcuacion.value += tipoEcuacion;   
+                     
+        }
+    </script>
+</body>
 
 </html>
