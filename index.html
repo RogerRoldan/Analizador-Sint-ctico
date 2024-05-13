@@ -73,7 +73,10 @@
         // Función para limpiar el input
         function clearInput() {
             var input = document.getElementById('textInputCalculator');
-            input.value = ''; // Limpia el contenido del input
+            var inputEcuacion = document.getElementById('resultado');
+            input.value = ''; 
+            input.style.backgroundColor = 'white'; 
+            inputEcuacion.value = "";
         }
 
         // Función para borrar el último carácter del input
@@ -81,7 +84,6 @@
             var input = document.getElementById('textInputCalculator');
             input.value = input.value.slice(0, -1); // Remueve el último carácter
         }
-
 
         window.onload = function() {
             var buttons = document.querySelectorAll('button');
@@ -135,7 +137,11 @@
             var input = document.getElementById('textInputCalculator');
             var tipoEcuacion = validarEcuacion(input.value);
             inputEcuacion.value += tipoEcuacion;   
-                     
+            if(tipoEcuacion === 'Polinomio no válido'){
+                input.style.backgroundColor = 'red'; 
+            }else{
+                input.style.backgroundColor = 'lightgreen'; 
+            }
         }
     </script>
 </body>
