@@ -187,7 +187,9 @@
         }
 
         function validarEcuacion(ecuacion) {
-            const regexPrimerGrado = /^([-+]?\d*x\s*([-+]\s*\d+)?\s*=\s*[-+]?\d+)$/;
+            // const regexPrimerGrado = /^([-+]?\d*x\s*([-+]\s*\d+)?\s*=\s*[-+]?\d+)$/;
+            const regexPrimerGrado = /^[-+]?(\d*x|\d+)(\s*[-+]\s*\d*x|\s*[-+]\s*\d+)*\s*=\s*[-+]?(\d*x|\d+)(\s*[-+]\s*\d*x|\s*[-+]\s*\d+)*$/i;
+
             const regexSegundoGrado = /^([-+]?\d*x\^2\s*([-+]\s*\d*x)?\s*([-+]\s*\d+)?\s*=\s*[-+]?\d+)$/;
             const regexCubica = /^([-+]?\d*x\^3\s*([-+]\s*\d*x\^2)?\s*([-+]\s*\d*x)?\s*([-+]\s*\d+)?\s*=\s*[-+]?\d+)$/;
             const regexExponencial = /^(\(?([a-zA-Z]|\d+\.\d+|\d+)\^(\w+)\)?)\s*(?:([-+*/]\s*(?:\d+(?:\.\d+)?|[a-zA-Z])))?\s*=\s*(-?\d+(\.\d+)?)$/;
