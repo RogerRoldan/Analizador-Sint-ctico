@@ -213,38 +213,31 @@
             }
         }
 
-        function simplificarEcuacion(polinomio) {
 
-            //balancear parentesis
+
+        function simplificarEcuacion(polinomio) {
             if (!validarParentesisBalanceados(polinomio)) {
                 return "Paréntesis desbalanceados";
             }
 
-
-            
-            // Elimina espacios y divide el polinomio en términos
-            //split para guardar la expresion despues del igual
             var despuesIgual = polinomio.split('=')[1];
             polinomio = polinomio.split('=')[0];
 
-            const terminos = polinomio.replace(/\s/g, '').match(/-?\d*\.?\d*(sin|cos|tan)\(x\)(\^\d+)?|-?\d*\.?\d*x\^\d+|-?\d*\.?\d*x|-?\d+/g);
+            // Actualiza esta expresión regular para manejar funciones trigonométricas con argumentos más complejos
+            const terminos = polinomio.replace(/\s/g, '').match(/-?\d*\.?\d*(sin|cos|tan)\([^\)]+\)(\^\d+)?|-?\d*\.?\d*x\^\d+|-?\d*\.?\d*x|-?\d+/g);
 
-            // Objeto para almacenar los coeficientes sumados por término
             const coeficientes = {};
 
             terminos.forEach(term => {
-                // Extrae la función trigonométrica, la variable y su potencia
-                const match = term.match(/(-?\d*\.?\d*)(sin|cos|tan)?\(x\)?(\^\d+)?|(-?\d*\.?\d*)(x)?(\^\d+)?/);
-                const coeficiente = match[1] ? parseFloat(match[1]) || 1 : (parseFloat(match[4]) || (match[4] ? 0 : 1));
-                const trigFunc = match[2] ? match[2] + '(x)' : '';
-                const potencia = match[3] || match[6] || '';
+                const match = term.match(/(-?\d*\.?\d*)(sin|cos|tan)\(([^\)]+)\)(\^\d+)?|(-?\d*\.?\d*)(x)?(\^\d+)?/);
+                const coeficiente = match[1] ? parseFloat(match[1]) || 1 : (parseFloat(match[5]) || (match[5] ? 0 : 1));
+                const trigFunc = match[2] ? match[2] + '(' + match[3] + ')' : '';
+                const potencia = match[4] || match[7] || '';
 
-                const clave = trigFunc + (match[5] ? 'x' : '') + potencia;
+                const clave = trigFunc + (match[6] ? 'x' : '') + potencia;
 
-                // Ajusta el coeficiente para casos de solo signo
                 if (match[1] === '-') coeficiente = -1;
 
-                // Suma los coeficientes de las claves correspondientes
                 if (coeficientes[clave]) {
                     coeficientes[clave] += coeficiente;
                 } else {
@@ -252,7 +245,6 @@
                 }
             });
 
-            // Construye el polinomio resultante
             const resultado = Object.keys(coeficientes)
                 .map(clave => {
                     const valor = coeficientes[clave];
