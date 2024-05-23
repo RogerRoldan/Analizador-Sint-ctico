@@ -1,0 +1,80 @@
+.inputAnalizar {
+
+    margin: 0px;
+    height: 59px;
+    width: 488px;
+    font-size: 37px;
+    padding: 10px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 6;
+    padding-left: 15px;
+    text-align: justify;
+}
+
+.container1{
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+    margin-left: 0px;
+    padding-right: 0px;
+    margin-right: 0px;
+    margin-top: 40px;
+}
+
+.buttonAnalizar{
+    margin: 20px;
+    height: 60px;
+    width: 107px;
+    font-size: 23px;
+    margin-top: -4px;
+}
+
+.buttonLimpiar{
+    background: #cf0124;
+    height: 60px;
+    width: 100px;
+    font-size: 23px;
+    margin-top: -23px;
+}
+
+.buttonCalculadora{
+    width: 70px;
+    margin: 6px;
+    color: var(--bs-body-color);
+    background: var(--bs-gray-200);
+    border-color: var(--bs-gray-500);
+    height: 45px;
+    font-size: 23px;
+    padding: 0px;
+   
+}
+
+.buttonLarge{
+    margin: 6px;
+    width: 85px;
+    font-size: 23px;
+    height: 45px;
+    color: var(--bs-body-color);
+    background: var(--bs-gray-200);
+    border-color: var(--bs-gray-500);
+    padding: 0px;
+}
+
+.respuesta{
+    text-align: center;
+    margin: 21px;
+    font-size: 35px;
+    background: rgba(142, 226, 188, 0.31);
+    height: 53px;
+    padding: 7px 0px 0px;
+    padding-top: 5px;
+    color: var(--bs-emphasis-color);
+}
+
+.input2{
+    margin-left: 18px;
+    height: 36px;
+    font-size: 20px;
+    font-weight: bold;
+}
