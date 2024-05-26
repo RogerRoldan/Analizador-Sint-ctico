@@ -90,17 +90,21 @@ function simplificarEcuacion(polinomio) {
 
   var despuesIgual = polinomio.split("=")[1];
   polinomio = polinomio.split("=")[0].replace(/\s/g, "");
+  despuesIgual = despuesIgual.replace(/\s/g, "");
 
   // Expande las multiplicaciones implícitas por paréntesis
   polinomio = expandirMultiplicaciones(polinomio);
+  despuesIgual = expandirMultiplicaciones(despuesIgual);
 
   // Extraer y simplificar términos
   const terminos = extraerTerminos(polinomio);
+  const terminosDespuesIgual = extraerTerminos(despuesIgual);
 
   // Simplificar los términos encontrados
   const resultado = simplificarTerminos(terminos);
+  const resultadoDespuesIgual = simplificarTerminos(terminosDespuesIgual);
 
-  return resultado + "=" + despuesIgual;
+  return resultado + "=" + resultadoDespuesIgual;
 }
 
 function expandirMultiplicaciones(expresion) {
@@ -111,11 +115,7 @@ function expandirMultiplicaciones(expresion) {
       return term.replace(/(\d*)(x?)/, (m, num, varPart) => {
         num = num || (varPart ? 1 : 0);
         let result = parseInt(prefijo) * parseInt(num);
-        if (varPart === '') {
-          return sign + result.toString();
-        } else {
-          return sign + result.toString() + varPart;
-        }
+        return sign + result.toString() + varPart;
       });
     }).join('');
     return contenido;
@@ -124,32 +124,33 @@ function expandirMultiplicaciones(expresion) {
 
 function extraerTerminos(polinomio) {
   return polinomio.match(
-    /-?\d*\.?\d*(sin|cos|tan)\([^\)]+\)(\^\d+)?|-?\d*\.?\d*x\^\d+|-?\d*\.?\d*x|-?\d+/g
+    /-?\d*\.?\d*(sin|cos|tan|log)\([^)]+\)(\^\d+)?|-?\d*\.?\d*x\^\d+|-?\d*\.?\d*x|-?\d+/g
   ) || [];
 }
 
 function simplificarTerminos(terminos) {
   const coeficientes = {};
   terminos.forEach(term => {
-    const match = term.match(/(-?\d*\.?\d*)(sin|cos|tan)?\(([^\)]+)\)(\^\d+)?|(-?\d*\.?\d*)(x\^\d+|x)?/);
-    const coeficiente = parseFloat(match[1]) || parseFloat(match[5]) || (match[2] || match[6] ? 1 : 0);
-    const base = (match[2] ? match[2] + "(" + match[3] + ")" + (match[4] || '') : "") + (match[6] || "");
-    const clave = base || 'const';
-
-    coeficientes[clave] = (coeficientes[clave] || 0) + coeficiente;
+    const match = term.match(/^(-?)(\d*\.?\d*)(sin|cos|tan|log)?\(([^)]+)\)(\^\d+)?|(-?)(\d*\.?\d*)(x\^\d+|x)?$/);
+    let signo = match[1] || match[6];
+    let coeficiente = parseFloat(match[2] || match[7]) || 0;
+    if (coeficiente === 0 && (match[2] === '' || match[7] === '')) {
+      coeficiente = 1; // Coeficiente implícito de 1 para términos como x o x^2
+    }
+    if (signo === '-') {
+      coeficiente = -coeficiente;
+    }
+    let base = (match[3] ? match[3] + "(" + match[4] + ")" + (match[5] || '') : "") + (match[8] || "");
+    coeficientes[base] = (coeficientes[base] || 0) + coeficiente;
   });
 
   return Object.keys(coeficientes)
     .map(key => {
       const value = coeficientes[key];
-      if (key === 'const') {
-        return (value === 1 ? "" : value === -1 ? "-" : value.toString());
-      }
-      return (value === 1 ? "" : value === -1 ? "-" : value) + key;
+      return (value === 1 && key !== '' ? "" : value === -1 && key !== '' ? "-" : value) + key;
     })
     .join(" + ")
-    .replace(/\+\s-/g, "- ")
-    .replace(/ \+ -/g, " - ");
+    .replace(/\+ -/g, " - ");
 }
 
 function analizarEcuacion() {
