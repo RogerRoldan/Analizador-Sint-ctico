@@ -53,13 +53,11 @@ function validarEcuacion(ecuacion) {
     /^([-+]?\d*x\^3\s*([-+]\s*\d*x\^2)?\s*([-+]\s*\d*x)?\s*([-+]\s*\d+)?\s*=\s*[-+]?\d+)$/;
   const regexTrigonométrica =
     /^(\s*[-+]?\d*\s*(sin|cos|tan)\(([a-zA-Z0-9π\/()+\-*]+\s*([+]\s*[a-zA-Z0-9π\/()+\-*]+\s*)*)\)(\^\d+)?\s*([-+]\s*[-+]?\d*\s*(sin|cos|tan)\(([a-zA-Z0-9π\/()+\-*]+\s*([+]\s*[a-zA-Z0-9π\/()+\-*]+\s*)*)\)(\^\d+)?)*)\s*=\s*[-+]?\d+(\.\d+)?(\/\d+)?\s*$/;
-  const regexRadicalGeneral =
-    /^([-+]?\d*\.?\d+)?((?:√|³√|ⁿ√|\d+√|\d*\^\d*\/?\d*)\(\s*[-+]?(\d*\.?\d*[a-zA-Z])(?:\^\d+)?(?:\s[-+/]\s[-+]?(\d*\.?\d*[a-zA-Z])(?:\^\d+)?)\s*\)(?:\^\d*\/?\d*)?)(?:\s*[-+/]\s[-+]?(\d*\.?\d*[a-zA-Z])(?:\^\d+)?)?\s(?:\+|\-|\|\/)?\s((?:√|³√|ⁿ√|\d+√|\d*\^\d*\/?\d*)\(\s*[-+]?(\d*\.?\d*[a-zA-Z])(?:\^\d+)?(?:\s[-+/]\s[-+]?(\d*\.?\d*[a-zA-Z])(?:\^\d+)?)\s*\)(?:\^\d*\/?\d*)?)\s=\s*([-+]?\d*\.?\d*|\d*\^\d*\/?\d*|√\([a-zA-Z0-9+/^\s]+\)|(?:\d+\^\d\/?\d*)|(?:[-+]?(\d*\.?\d*[a-zA-Z0-9](?:\^\d+)?|√\([a-zA-Z0-9+/^\s]+\))))?(?:\s*[-+/]\s[-+]?(\d*\.?\d*[a-zA-Z0-9](?:\^\d+)?)?)$/;
-  //const regexLogaritmica = /log(?[a-zA-Z]\d)?\(\s*([-+]?(\d+|\w+|log\(\w+\)|\(.+\))(?:\s*[-+\/^]\s(\d+|\w+|log\(\w+\)|\(.+\)))?)\s*\)\s*=\s*([-+]?\s*\d+\.?\d*|\s*[-+]?\s*log(?[a-zA-Z]\d)?\(\s*([-+]?(\d+|\w+|log\(\w+\)|\(.+\))(?:\s*[-+\/^]\s(\d+|\w+|log\(\w+\)|\(.+\)))?)\s*\))/;
-  const regexExponencial =
-    /^(\(?(?:\d*\.?\d*|e)\^[a-zA-Z]+\s*[+\-/]\s\d*\.?\d*\)?|\(?(?:\d*\.?\d*|e)\^[a-zA-Z]+\)?|\(?(?:\d*\.?\d*|e)\^[a-zA-Z]+\s*[+\-/]\s(?:\d*\.?\d*|e)\)?|\(?(?:\d*\.?\d*|e)\^[a-zA-Z]+\s*[+\-/]\s(?:\d*\.?\d*|e)\s*[+\-/]\s(?:\d*\.?\d*|e)\)?)/;
-  const regexExponencialIrracional =
-    /^(\(?\d*\.?\d*\)?[+\-/])?(\(?[+\-]?\d\.\d+\)?|\(?\d+\)?\^[a-zA-Z]+|e[+\-/]\d\.\d*|\(?\d+\)?\^[a-zA-Z]+|\(?[+\-]?\d*\.\d+\)?|\(?\d+\)?\^[a-zA-Z]+)?(\(\w*\)\^)?([a-zA-Z]+\^\d+|\d*\.\d+\^\d+|e\^\d+|\(?\d+\)?\^\d+|\d+\.\d+\^\d+|\w+\^\d+)?=?(\d+)?$/;
+    const regexLogaritmica = 
+    /log([a-zA-Z]\d)?\(\s*([-+]?(\d+|\w+|log\(\w+\)|\(.+\))(?:\s*[-+\/^]\s*(\d+|\w+|log\(\w+\)|\(.+\)))?)\s*\)\s*=\s*([-+]?\s*\d*\.?\d+|\s*[-+]?\s*log([a-zA-Z]\d)?\(\s*([-+]?(\d+|\w+|log\(\w+\)|\(.+\))(?:\s*[-+\/^]\s*(\d+|\w+|log\(\w+\)|\(.+\)))?)\s*\))/;
+  //const regexRadicalGeneral =/^([-+]?\d*\.?\d+)?((?:√|³√|ⁿ√|\d+√|\d*\^\d*\/?\d*)\(\s*[-+]?(\d*\.?\d*[a-zA-Z])(?:\^\d+)?(?:\s[-+/]\s[-+]?(\d*\.?\d*[a-zA-Z])(?:\^\d+)?)\s*\)(?:\^\d*\/?\d*)?)(?:\s*[-+/]\s[-+]?(\d*\.?\d*[a-zA-Z])(?:\^\d+)?)?\s(?:\+|\-|\|\/)?\s((?:√|³√|ⁿ√|\d+√|\d*\^\d*\/?\d*)\(\s*[-+]?(\d*\.?\d*[a-zA-Z])(?:\^\d+)?(?:\s[-+/]\s[-+]?(\d*\.?\d*[a-zA-Z])(?:\^\d+)?)\s*\)(?:\^\d*\/?\d*)?)\s=\s*([-+]?\d*\.?\d*|\d*\^\d*\/?\d*|√\([a-zA-Z0-9+/^\s]+\)|(?:\d+\^\d\/?\d*)|(?:[-+]?(\d*\.?\d*[a-zA-Z0-9](?:\^\d+)?|√\([a-zA-Z0-9+/^\s]+\))))?(?:\s*[-+/]\s[-+]?(\d*\.?\d*[a-zA-Z0-9](?:\^\d+)?)?)$/;
+  //const regexExponencial =/^(\(?(?:\d*\.?\d*|e)\^[a-zA-Z]+\s*[+\-/]\s\d*\.?\d*\)?|\(?(?:\d*\.?\d*|e)\^[a-zA-Z]+\)?|\(?(?:\d*\.?\d*|e)\^[a-zA-Z]+\s*[+\-/]\s(?:\d*\.?\d*|e)\)?|\(?(?:\d*\.?\d*|e)\^[a-zA-Z]+\s*[+\-/]\s(?:\d*\.?\d*|e)\s*[+\-/]\s(?:\d*\.?\d*|e)\)?)/;
+  //const regexExponencialIrracional =/^(\(?\d*\.?\d*\)?[+\-/])?(\(?[+\-]?\d\.\d+\)?|\(?\d+\)?\^[a-zA-Z]+|e[+\-/]\d\.\d*|\(?\d+\)?\^[a-zA-Z]+|\(?[+\-]?\d*\.\d+\)?|\(?\d+\)?\^[a-zA-Z]+)?(\(\w*\)\^)?([a-zA-Z]+\^\d+|\d*\.\d+\^\d+|e\^\d+|\(?\d+\)?\^\d+|\d+\.\d+\^\d+|\w+\^\d+)?=?(\d+)?$/;
   //const regexLogaritmicaIrracional = /^log(?[a-zA-Z]\d)?\(\s*([-+]?(\d+|\w+|log\(\w+\)|\(.+\))(?:\s*[-+\/^]\s(\d+|\w+|log\(\w+\)|\(.+\)))?)\s*\)\s*=\s*([-+]?\s*\d+\.?\d*|\s*[-+]?\s*log(?[a-zA-Z]\d)?\(\s*([-+]?(\d+|\w+|log\(\w+\)|\(.+\))(?:\s*[-+\/^]\s(\d+|\w+|log\(\w+\)|\(.+\)))?)\s*\))$/;
 
   if (!validarParentesisBalanceados(ecuacion)) {
@@ -72,12 +70,8 @@ function validarEcuacion(ecuacion) {
     return "Ecuación cúbica";
   } else if (regexTrigonométrica.test(ecuacion)) {
     return "Ecuación trigonométrica";
-  } else if (regexRadicalGeneral.test(ecuacion)) {
-    return "Ecuación radical general";
-  } else if (regexExponencial.test(ecuacion)) {
-    return "Ecuación exponencial";
-  } else if (regexExponencialIrracional.test(ecuacion)) {
-    return "Ecuación exponencial irracional";
+  } else if (regexLogaritmica.test(ecuacion)) {
+    return "Ecuación logarítmica";
   } else {
     return "Expresión no reconocida";
   }
