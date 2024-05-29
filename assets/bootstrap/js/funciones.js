@@ -35,6 +35,8 @@ window.onload = function () {
         deleteLastCharacter();
       } else if (button.textContent === "Analizar") {
         analizarEcuacion();
+      }  else if (button.textContent === "Cerrar") {
+        addTextToInput("");
       } else {
         addTextToInput(button.textContent);
       }
@@ -55,6 +57,7 @@ function validarEcuacion(ecuacion) {
     /^(\s*[-+]?\d*\s*(sin|cos|tan)\(([a-zA-Z0-9π\/()+\-*]+\s*([+]\s*[a-zA-Z0-9π\/()+\-*]+\s*)*)\)(\^\d+)?\s*([-+]\s*[-+]?\d*\s*(sin|cos|tan)\(([a-zA-Z0-9π\/()+\-*]+\s*([+]\s*[a-zA-Z0-9π\/()+\-*]+\s*)*)\)(\^\d+)?)*)\s*=\s*[-+]?\d+(\.\d+)?(\/\d+)?\s*$/;
     const regexLogaritmica = 
     /log([a-zA-Z]\d)?\(\s*([-+]?(\d+|\w+|log\(\w+\)|\(.+\))(?:\s*[-+\/^]\s*(\d+|\w+|log\(\w+\)|\(.+\)))?)\s*\)\s*=\s*([-+]?\s*\d*\.?\d+|\s*[-+]?\s*log([a-zA-Z]\d)?\(\s*([-+]?(\d+|\w+|log\(\w+\)|\(.+\))(?:\s*[-+\/^]\s*(\d+|\w+|log\(\w+\)|\(.+\)))?)\s*\))/;
+  
   //const regexRadicalGeneral =/^([-+]?\d*\.?\d+)?((?:√|³√|ⁿ√|\d+√|\d*\^\d*\/?\d*)\(\s*[-+]?(\d*\.?\d*[a-zA-Z])(?:\^\d+)?(?:\s[-+/]\s[-+]?(\d*\.?\d*[a-zA-Z])(?:\^\d+)?)\s*\)(?:\^\d*\/?\d*)?)(?:\s*[-+/]\s[-+]?(\d*\.?\d*[a-zA-Z])(?:\^\d+)?)?\s(?:\+|\-|\|\/)?\s((?:√|³√|ⁿ√|\d+√|\d*\^\d*\/?\d*)\(\s*[-+]?(\d*\.?\d*[a-zA-Z])(?:\^\d+)?(?:\s[-+/]\s[-+]?(\d*\.?\d*[a-zA-Z])(?:\^\d+)?)\s*\)(?:\^\d*\/?\d*)?)\s=\s*([-+]?\d*\.?\d*|\d*\^\d*\/?\d*|√\([a-zA-Z0-9+/^\s]+\)|(?:\d+\^\d\/?\d*)|(?:[-+]?(\d*\.?\d*[a-zA-Z0-9](?:\^\d+)?|√\([a-zA-Z0-9+/^\s]+\))))?(?:\s*[-+/]\s[-+]?(\d*\.?\d*[a-zA-Z0-9](?:\^\d+)?)?)$/;
   //const regexExponencial =/^(\(?(?:\d*\.?\d*|e)\^[a-zA-Z]+\s*[+\-/]\s\d*\.?\d*\)?|\(?(?:\d*\.?\d*|e)\^[a-zA-Z]+\)?|\(?(?:\d*\.?\d*|e)\^[a-zA-Z]+\s*[+\-/]\s(?:\d*\.?\d*|e)\)?|\(?(?:\d*\.?\d*|e)\^[a-zA-Z]+\s*[+\-/]\s(?:\d*\.?\d*|e)\s*[+\-/]\s(?:\d*\.?\d*|e)\)?)/;
   //const regexExponencialIrracional =/^(\(?\d*\.?\d*\)?[+\-/])?(\(?[+\-]?\d\.\d+\)?|\(?\d+\)?\^[a-zA-Z]+|e[+\-/]\d\.\d*|\(?\d+\)?\^[a-zA-Z]+|\(?[+\-]?\d*\.\d+\)?|\(?\d+\)?\^[a-zA-Z]+)?(\(\w*\)\^)?([a-zA-Z]+\^\d+|\d*\.\d+\^\d+|e\^\d+|\(?\d+\)?\^\d+|\d+\.\d+\^\d+|\w+\^\d+)?=?(\d+)?$/;
@@ -79,8 +82,10 @@ function validarEcuacion(ecuacion) {
 
 function simplificarEcuacion(polinomio) {
   if (!validarParentesisBalanceados(polinomio)) {
-    return "Paréntesis desbalanceados";
-  }
+    var myModal = new bootstrap.Modal(document.getElementById('errorModal'), {});
+    myModal.show();
+    return "";
+  } 
 
   var despuesIgual = polinomio.split("=")[1];
   polinomio = polinomio.split("=")[0].replace(/\s/g, "");
