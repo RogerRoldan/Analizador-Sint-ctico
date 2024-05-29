@@ -77,3 +77,9 @@
     font-size: 20px;
     font-weight: bold;
 }
+
+
+.inputAnalizar::placeholder {
+    font-style: italic; /* Estilo de fuente */
+    font-size: 19px; /* Tamaño de fuente */
+  }
